@@ -101,3 +101,5 @@ Hyperpigmentation from other causes
 
 Edge case rule
 Active acne + scarring together → label as inflammatory, not scarring. Scarring label = scarring is the main feature
+
+df contains the processed image file paths and their labels. I used scikit-learn’s train_test_split to divide this dataset into training, validation, and testing sets. The split was stratified by label so that each class kept a similar distribution across the three sets.
