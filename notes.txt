@@ -103,3 +103,11 @@ Edge case rule
 Active acne + scarring together → label as inflammatory, not scarring. Scarring label = scarring is the main feature
 
 df contains the processed image file paths and their labels. I used scikit-learn’s train_test_split to divide this dataset into training, validation, and testing sets. The split was stratified by label so that each class kept a similar distribution across the three sets.
+
+Baseline Model Interpretation
+
+The baseline Logistic Regression model achieved a validation accuracy of 23.8%, which is only slightly above random guessing for a 5-class classification problem. This suggests that flattened pixel values are not enough to capture the visual patterns needed to distinguish acne categories.
+
+The model performed best on inflammatory_acne and comedonal_open, but failed to correctly identify acne_excoriee, acne_scars, and comedonal_closed in the validation set. This is likely due to the small dataset size, class imbalance, and the loss of spatial information caused by flattening the images.
+
+These results support the need for a CNN model, which can learn spatial features such as texture, local patterns, and lesion shape more effectively than a traditional flattened-pixel baseline.
