@@ -142,3 +142,11 @@ After removing the acne_excoriee class, the Logistic Regression baseline improve
 The model performed best on inflammatory_acne and acne_scars, which are more visually distinct. It struggled most with comedonal_closed and comedonal_open, likely because these categories are visually similar and often overlap in real images.
 
 This baseline provides a comparison point for the CNN model. Since Logistic Regression uses flattened pixel values and does not preserve spatial image structure, a CNN may improve performance by learning local texture, lesion shape, and visual patterns.
+
+Second CNN Model Interpretation
+
+The CNN reached around 71.8% training accuracy but only around 48.4% validation accuracy. The training loss steadily decreased, while the validation loss increased after the early epochs. This indicates overfitting: the model is learning the training images but is not generalizing well to unseen validation images.
+
+Compared to the Logistic Regression baseline, the CNN learned the training data more effectively, but it did not yet outperform the baseline on validation accuracy. This suggests that the current CNN has enough capacity but needs better regularization and more diverse training examples.
+
+The next experiment will add early stopping and gentle data augmentation to reduce overfitting and improve validation performance.
