@@ -150,3 +150,13 @@ The CNN reached around 71.8% training accuracy but only around 48.4% validation 
 Compared to the Logistic Regression baseline, the CNN learned the training data more effectively, but it did not yet outperform the baseline on validation accuracy. This suggests that the current CNN has enough capacity but needs better regularization and more diverse training examples.
 
 The next experiment will add early stopping and gentle data augmentation to reduce overfitting and improve validation performance.
+
+
+After it2:
+CNN with data augmentation and early stopping Experiment Interpretation
+
+After adding data augmentation and early stopping, the model stopped after 4 epochs. The validation loss improved early and then began to increase, so early stopping prevented further overfitting.
+
+Compared to the previous CNN, this version showed less overfitting because training and validation performance stayed closer together and validation loss was lower. However, validation accuracy also decreased, suggesting that the combination of augmentation and early stopping may have been too restrictive or stopped training too early.
+
+The next experiment will use gentler augmentation and a higher early-stopping patience value to give the model more time to learn while still controlling overfitting.
