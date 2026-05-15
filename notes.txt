@@ -160,3 +160,12 @@ After adding data augmentation and early stopping, the model stopped after 4 epo
 Compared to the previous CNN, this version showed less overfitting because training and validation performance stayed closer together and validation loss was lower. However, validation accuracy also decreased, suggesting that the combination of augmentation and early stopping may have been too restrictive or stopped training too early.
 
 The next experiment will use gentler augmentation and a higher early-stopping patience value to give the model more time to learn while still controlling overfitting.
+
+
+Ran it2 one more time and got:
+
+After adding data augmentation and early stopping, the CNN showed less overfitting than the previous version. Training accuracy increased more slowly, and validation loss stayed more stable instead of rising sharply. This suggests that augmentation and early stopping helped control memorization.
+
+However, the model still did not outperform the Logistic Regression baseline. The best validation accuracy was around 45%, compared to the baseline validation accuracy of 51.6%. This suggests that the custom CNN may not have enough data to learn strong visual features from scratch.
+
+The next step is to try transfer learning using a pretrained model such as MobileNetV2, which can reuse general image features learned from a much larger dataset.
