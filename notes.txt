@@ -169,3 +169,11 @@ After adding data augmentation and early stopping, the CNN showed less overfitti
 However, the model still did not outperform the Logistic Regression baseline. The best validation accuracy was around 45%, compared to the baseline validation accuracy of 51.6%. This suggests that the custom CNN may not have enough data to learn strong visual features from scratch.
 
 The next step is to try transfer learning using a pretrained model such as MobileNetV2, which can reuse general image features learned from a much larger dataset.
+
+Regularized CNN it3 Interpretation
+
+This experiment used gentler data augmentation and a higher early-stopping patience value. Although the training accuracy increased, validation accuracy remained unstable and did not improve beyond the baseline model.
+
+The best validation accuracy was around 38.7%, while the Logistic Regression baseline achieved 51.6%. This suggests that the custom CNN trained from scratch is not generalizing well with the current dataset size.
+
+Since the CNN is learning the training data but not improving consistently on validation data, the next step is to use transfer learning with a pretrained model such as MobileNetV2.
