@@ -200,3 +200,11 @@ The MobileNetV2 transfer learning model performed significantly better than the 
 Both training and validation accuracy increased together, and both training and validation loss decreased steadily. This suggests that the pretrained MobileNetV2 feature extractor is learning more generalizable image features than the CNN trained from scratch.
 
 Because validation loss was still decreasing at the end of 30 epochs, the next experiment will train the transfer learning model for more epochs with early stopping.
+
+Transfer Learning 100-Epoch Interpretation
+
+The MobileNetV2 transfer learning model achieved the strongest validation performance so far, reaching approximately 71% validation accuracy. This significantly outperformed the Logistic Regression baseline and the custom CNN models trained from scratch.
+
+Training and validation loss both decreased over time, which suggests that the model continued improving rather than immediately overfitting. Validation accuracy eventually plateaued around 71%, while validation loss continued decreasing, indicating that the model was becoming more confident on its validation predictions even though the number of correct classifications was no longer increasing.
+
+Because validation loss was still slowly improving, a final experiment will use a learning-rate reduction callback to allow smaller updates later in training.
