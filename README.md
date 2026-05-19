@@ -1,4 +1,4 @@
-# Acne Image Classification Project
+# Acne Image Classifier 
 
 ## Project Overview
 
