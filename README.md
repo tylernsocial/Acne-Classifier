@@ -2,41 +2,53 @@
 
 ## Project Overview
 
-This project focuses on building a custom image classification model for acne-related images. The main goal was to train a deep learning model that can classify acne images into different categories based on visual patterns in the dataset.
+This project focuses on building a custom image classification model for acne-related images. The main goal was to create a model that can take an image and classify it into the correct acne category.
 
-The project followed a full machine learning development cycle, starting from a basic baseline model and gradually improving it through experimentation, training adjustments, callbacks, and evaluation. Throughout the process, different versions of the model were tested to understand how changes such as the number of epochs, learning rate behaviour, and validation performance affected the final results.
+The project went through multiple stages, starting with a simple baseline model, then moving to a custom CNN model, and finally using transfer learning to improve performance. Each stage helped me understand what the previous model was missing and what needed to be changed to improve the classifier.
 
-By the end of the project, a final trained model was selected, saved, and prepared for future use in an acne-based application.
+The final model was saved along with the class names so it can be reused later for predictions or connected to a future acne tracking application.
 
 ---
 
 ## Project Goal
 
-The goal of this project was to create an acne image classifier that could accurately recognize different acne-related image classes.
+The goal of this project was to develop an acne image classifier that could identify different acne-related categories from images.
 
-This classifier is intended to become part of a larger acne tracking application, where users may eventually be able to upload images and receive classification results. The app idea also includes tracking lifestyle factors such as diet, sleep, routines, and other changes that may influence acne over time.
+This classifier is intended to be part of a larger acne-based application. The main idea for the app is to combine an acne image classifier with lifestyle tracking features, where users can track things like diet, sleep, skincare routines, and other lifestyle changes that may affect their skin over time.
 
 ---
 
 ## Dataset
 
-The dataset used for this project contained images organized into different acne-related classes. Each class represented a specific category that the model needed to learn to identify.
+The dataset used in this project was manually collected by scraping acne-related images from online sources. Since this was not a ready-made dataset, I had to gather, organize, and prepare the images before using them for model training.
 
-The dataset was split into separate training, validation, and testing sets so that the model could be trained, tuned, and evaluated fairly.
+The images were separated into different acne-related classes. Each class represented a category that the model needed to learn. After collecting the images, I organized the dataset into folders, where each folder represented one acne class. This folder structure made it easier to load the images into the model using image classification tools.
 
-The general purpose of each split was:
+The dataset was split into three main parts:
 
-- **Training set:** Used to teach the model patterns from the images.
-- **Validation set:** Used during training to monitor performance and help detect overfitting or underfitting.
-- **Testing set:** Used only after model development to evaluate how well the final model performs on unseen data.
+- **Training data:** Used to teach the model.
+- **Validation data:** Used to check how the model performed during training.
+- **Testing data:** Used at the end to evaluate the final model on unseen images.
 
-Keeping the test set separate was important because it allowed the final model to be evaluated more fairly.
+This split was important because it allowed me to evaluate the model more fairly instead of only measuring how well it performed on images it had already seen.
+
+Since the dataset was manually scraped, one important challenge was that the images were not perfectly consistent. Images could vary in lighting, angle, image quality, skin tone, background, and how clearly the acne was shown. This made the classification task more realistic, but also more difficult.
 
 ---
 
 ## Project Life Cycle
 
-The project went through multiple stages. Each stage helped us understand what the model was doing and what needed to be improved.
+The project followed a full model development process. Instead of building one model and stopping there, I created multiple versions and compared their performance.
+
+The main stages were:
+
+1. Baseline model
+2. Custom CNN model
+3. Transfer learning model
+4. Final model evaluation
+5. Saving the final model and class names
+
+Each stage helped improve the project and gave me a better understanding of what the model needed.
 
 ---
 
@@ -44,473 +56,274 @@ The project went through multiple stages. Each stage helped us understand what t
 
 ## Purpose of the Baseline Model
 
-The first model created was the baseline model. The purpose of the baseline model was not necessarily to get the best possible accuracy right away, but to create a starting point.
+The first model I created was the baseline model. The purpose of this model was to create a simple starting point.
 
-The baseline model helped answer questions such as:
+The baseline model helped answer basic questions such as:
 
-- Can the model learn from the dataset at all?
-- Are the images and labels loading correctly?
+- Is the dataset loading correctly?
+- Are the class labels working properly?
+- Can the model learn anything from the images?
 - Is the training pipeline working?
-- Is the model underfitting, overfitting, or learning normally?
-- What accuracy can we get before making improvements?
+- What level of performance can I get before making improvements?
 
-This gave us something to compare future models against.
+The baseline model was important because it gave me a reference point. Without a baseline, it would be harder to tell whether later models were actually improving.
 
-## What We Learned From the Baseline Model
+## What I Learned From the Baseline Model
 
-From the baseline model, we learned that the model was able to train and recognize some patterns in the dataset, but it was not yet strong enough to be considered the final version.
+The baseline model showed that the project pipeline was working, but it was not strong enough to be the final model.
 
-The baseline model gave us an important first look at the behaviour of the training and validation curves. These curves helped us understand whether the model was improving, struggling, or memorizing the training data too much.
+It was able to train, but its performance was limited. This made sense because the baseline model was simple and did not have enough ability to learn complex image patterns.
 
-The baseline model also showed that simply training a model once is not enough. Model performance depends heavily on training time, validation behaviour, learning rate, and how well the model generalizes to new images.
+Acne images can be difficult to classify because different acne types can look visually similar. Lighting, skin tone, camera quality, image angle, and background can also affect the image. The baseline model was not powerful enough to handle all of these differences well.
 
-## Why the Baseline Model Was Not Enough
+## What Changed After the Baseline Model
 
-The baseline model was useful, but it likely had limitations such as:
+After the baseline model, I needed a stronger model that could learn image features more effectively.
 
-- Lower accuracy compared to later models.
-- Less stable validation performance.
-- Possible underfitting if the model had not trained long enough.
-- Possible overfitting if training accuracy improved but validation accuracy did not.
-- No learning rate adjustment to help the model improve more carefully over time.
-
-Because of this, more experiments were needed.
+This led me to build a custom Convolutional Neural Network.
 
 ---
 
-# 2. Improving the Training Process
+# 2. Custom CNN Model
 
-After the baseline model, the next step was to improve the training process instead of only changing the model architecture.
+## Why I Used a CNN
 
-One of the major improvements was adding a learning rate callback.
+After the baseline model, I created a custom CNN model.
 
-## ReduceLROnPlateau Callback
+CNNs are commonly used for image classification because they are designed to learn visual features from images. They can detect patterns such as edges, textures, shapes, and more detailed image features.
 
-A `ReduceLROnPlateau` callback was added during training.
+This made a CNN a better fit for acne classification compared to the simpler baseline model.
 
-This callback watches the model’s validation performance. If the model stops improving for a certain number of epochs, the callback reduces the learning rate.
+## What Changed
 
-This is useful because a high learning rate may help the model learn quickly at the beginning, but later in training, a smaller learning rate can help the model make more careful adjustments.
+The project moved from a basic baseline model to a custom CNN architecture.
 
-## Why This Was Important
+The CNN used convolutional layers and pooling layers to learn visual patterns from the images. This allowed the model to focus more on important image features instead of treating the image like simple raw data.
 
-Adding `ReduceLROnPlateau` helped the model continue improving instead of getting stuck too early.
+This was an important improvement because acne classification depends heavily on small visual details such as texture, redness, bumps, and skin patterns.
 
-In image classification projects, the learning rate can have a major impact on performance. If the learning rate is too high, the model may jump around and miss better solutions. If it is too low, the model may learn very slowly.
+## What I Learned From the CNN
 
-The callback allowed the model to automatically lower the learning rate when improvement slowed down.
+The CNN performed better than the baseline model because it had a better structure for image classification.
 
-## What We Learned
+However, the custom CNN still had limitations. Since it was trained from scratch, it had to learn all image features only from my acne dataset.
 
-From using the learning rate callback, we learned that training is not only about increasing epochs. The way the model learns during those epochs matters.
+This can be difficult when the dataset is not extremely large. A model trained from scratch usually needs a lot of images to learn strong and general features.
 
-The callback helped make training more controlled and gave the model a better chance to improve gradually.
+From this stage, I learned that CNNs are much better for image data than a simple baseline model, but training a CNN from scratch can still be limited when working with a smaller manually collected dataset.
 
----
+## What Changed After the CNN
 
-# 3. Training for 100 Epochs
+Because the custom CNN still had room for improvement, I moved to transfer learning.
 
-One of the first longer training experiments was done using 100 epochs with the learning rate callback.
-
-## Why We Tested 100 Epochs
-
-Training for 100 epochs gave the model more time to learn compared to shorter training runs. The goal was to see whether longer training would improve accuracy and validation performance.
-
-## What Happened
-
-The 100-epoch model trained successfully, but the results were not as strong as later experiments. When compared to the model trained for 150 epochs, the 100-epoch version performed worse.
-
-## What We Learned
-
-From the 100-epoch model, we learned that the model still had room to improve. The training and validation results suggested that the model had not fully reached its best performance yet.
-
-This meant that stopping at 100 epochs may have been too early.
-
-The key lesson was that the model was still benefiting from additional training time.
+Transfer learning allowed me to use a model that had already learned useful image features from a much larger dataset.
 
 ---
 
-# 4. Training for 150 Epochs
+# 3. Transfer Learning Model
 
-After the 100-epoch experiment, the model was trained for 150 epochs.
+## Why I Used Transfer Learning
 
-## Why We Tested 150 Epochs
+Transfer learning was used because it can improve image classification performance, especially when working with a smaller custom dataset.
 
-Since the 100-epoch model still showed room for improvement, 150 epochs was chosen as the next experiment. This allowed the model more time to learn while still avoiding an extreme jump in training time.
+Instead of training a model completely from scratch, transfer learning uses a pre-trained model that has already learned general image features from a large dataset.
 
-## What Improved
+These general features can include:
 
-The 150-epoch model produced better results than the 100-epoch model.
+- Edges
+- Lines
+- Textures
+- Shapes
+- Color patterns
+- Object-level features
 
-The training curves showed a more gradual improvement, and the model appeared to be learning better patterns from the images.
+The model can then reuse those learned features and adapt them to the acne classification task.
 
-This was an important stage because it showed that increasing the number of epochs was helping rather than immediately causing overfitting.
+## What Changed
 
-## What We Learned
+The project moved from a custom CNN trained from scratch to a transfer learning model.
 
-From the 150-epoch model, we learned that the model was still improving with more training. This suggested that the model had not fully plateaued at 100 epochs.
+This was a major improvement because the model did not have to learn every image feature from the beginning. Instead, it started with useful pre-trained knowledge and then learned how to apply that knowledge to acne images.
 
-However, this also introduced an important question:
+This made the model more powerful and better suited for the dataset.
 
-Should we keep increasing the number of epochs?
+## What I Learned From Transfer Learning
 
-At this point, we had to be careful. More epochs can improve performance, but they can also lead to overfitting if the model starts memorizing the training images instead of learning general patterns.
+Transfer learning showed that using a pre-trained model can improve performance compared to building everything from scratch.
 
-The 150-epoch model became a strong candidate, but we decided to test one more reasonable increase before choosing the final model.
+This stage helped the model recognize patterns in the images more effectively and generalize better to new images.
 
----
-
-# 5. Considering More Epochs
-
-At one point, we considered whether jumping from 150 epochs to 300 epochs would make sense.
-
-## Why We Did Not Immediately Jump to 300 Epochs
-
-Jumping from 150 to 300 epochs would not necessarily be wrong, but it would be a large increase. If the model was still improving, more epochs could help, but doubling the training time could also increase the risk of overfitting.
-
-Instead of making a huge jump, the better approach was to increase gradually.
-
-This is why 200 epochs was tested next.
-
-## What We Learned
-
-This part of the project showed that model development should be experimental, but controlled.
-
-Instead of randomly increasing training time, it is better to compare models step by step:
-
-- 100 epochs
-- 150 epochs
-- 200 epochs
-
-This makes it easier to understand whether each change actually helps.
+The transfer learning model became the strongest version of the project because it combined pre-trained image knowledge with my custom acne dataset.
 
 ---
 
-# 6. Training for 200 Epochs
+# 4. Training Progress and Model Selection
 
-The model was then trained for 200 epochs.
+Throughout the project, I compared different model versions to decide which one should be used as the final model.
 
-## Why We Tested 200 Epochs
+The baseline model was useful as a starting point, but it was too simple.
 
-The 150-epoch model was already performing well, but the results suggested that the model might still be improving gradually. Because of that, 200 epochs was a reasonable next experiment.
+The custom CNN improved the model because it was designed for image data, but it still had limitations because it was trained from scratch.
 
-This was not as extreme as jumping to 300 epochs, but it still gave the model more time to learn.
+The transfer learning model performed the best overall and was selected as the final model.
 
-## What Happened
+For the final model, I trained it for up to **200 epochs**. This was chosen after comparing earlier training results and noticing that the model was still improving gradually. The final model was selected because it gave the best overall balance between performance and generalization.
 
-The 200-epoch model showed better or more complete learning compared to the previous models. The training and validation results suggested that the model was still benefiting from additional epochs.
+---
 
-After comparing the 150-epoch and 200-epoch models, the 200-epoch model was selected as the final model.
+# 5. Model Comparison
 
-## Why We Chose the 200-Epoch Model
+| Model Version | Main Purpose | What Changed | What I Learned |
+|---|---|---|---|
+| Baseline Model | Create a simple starting point | Used a basic model to test the pipeline | The dataset and training process worked, but the model was too simple |
+| Custom CNN | Improve image feature learning | Added convolutional and pooling layers | CNNs are better for image data, but training from scratch has limits |
+| Transfer Learning Model | Improve final performance | Used a pre-trained model and adapted it to acne images | Transfer learning worked best for this project |
+| Final Model | Best selected version | Trained and evaluated the transfer learning model | This model gave the strongest overall results |
 
-The 200-epoch model was chosen because it provided the best balance between performance and training stability.
+---
 
-It showed that the model was still gradually improving, while not showing enough evidence that training had become harmful or heavily overfit.
+# 6. Final Model Evaluation
 
-The decision was not based only on training accuracy. It was based on looking at the overall behaviour of the model, including:
+The final model was evaluated using the test set. This was important because the test set contained images the model had not seen during training.
 
-- Training accuracy
-- Validation accuracy
-- Training loss
-- Validation loss
-- Test performance
+The final evaluation included:
+
+- Test accuracy
+- Test loss
 - Confusion matrix
 - Classification report
-
-This made the final model choice more reliable.
-
----
-
-# 7. Final Model Evaluation
-
-After choosing the 200-epoch model, the next step was to evaluate it on the test set.
-
-The test set was important because it contained images the model had not used during training or validation.
-
-## Evaluation Metrics
-
-Several evaluation methods were used to understand the final model’s performance.
-
-These included:
-
-- Accuracy
-- Loss
-- Confusion matrix
 - Precision
 - Recall
 - F1-score
-- Classification report
 
-Each metric helped explain the model from a different angle.
-
----
-
-## Accuracy
-
-Accuracy shows the overall percentage of images that the model classified correctly.
-
-A high accuracy means the model is correctly predicting many images overall.
-
-However, accuracy alone is not enough, especially if some classes have more images than others. That is why precision, recall, F1-score, and the confusion matrix were also important.
+These evaluation tools helped me understand not only how accurate the model was overall, but also how well it performed for each individual acne class.
 
 ---
 
-## Loss
+## Final Results
 
-Loss measures how far the model’s predictions are from the correct answers.
+The final transfer learning model was the strongest model created during this project.
 
-Even when accuracy is high, loss still matters because it shows how confident or uncertain the model is.
+Final model results:
 
-A decreasing loss usually means the model is learning better. However, if training loss keeps decreasing while validation loss increases, that can be a sign of overfitting.
+| Metric | Result |
+|---|---:|
+| Final model type | Transfer learning |
+| Final training length | 200 epochs |
+| Test accuracy | `ADD YOUR TEST ACCURACY HERE` |
+| Test loss | `ADD YOUR TEST LOSS HERE` |
+| Best performing class | `ADD CLASS NAME HERE` |
+| Most difficult class | `ADD CLASS NAME HERE` |
+
+The final model was selected because it performed better than both the baseline model and the custom CNN model.
 
 ---
 
 ## Confusion Matrix
 
-The confusion matrix was used to see how the model performed for each individual class.
+The confusion matrix was used to see where the model was making correct and incorrect predictions.
 
-It shows:
+This helped me identify:
 
-- Which classes were predicted correctly.
-- Which classes were confused with each other.
-- Whether the model struggled more with certain categories.
+- Which acne classes were predicted correctly most often.
+- Which acne classes were confused with each other.
+- Which classes may need more training images or better image quality.
 
-This was important because an acne classifier should not only perform well overall, but should also be checked class by class.
-
-Some classes may be visually similar, which can cause the model to confuse them. The confusion matrix helped identify those problem areas.
+This was useful because acne categories can be visually similar, so accuracy alone was not enough to fully understand the model’s performance.
 
 ---
 
-## Precision
+## Classification Report
 
-Precision measures how many of the images predicted as a certain class were actually correct.
+The classification report gave a more detailed breakdown of the final model’s performance.
 
-For example, if the model predicts several images as a specific acne class, precision tells us how often those predictions were right.
+It included:
 
-High precision means the model does not make many false positive predictions for that class.
+- **Precision:** How many images predicted as a class were actually correct.
+- **Recall:** How many actual images from a class the model correctly identified.
+- **F1-score:** A balanced score between precision and recall.
 
----
+This helped me understand the model at a class-by-class level.
 
-## Recall
+Example format:
 
-Recall measures how many actual images from a class the model successfully found.
-
-For example, if there are many images of a certain acne class, recall tells us how many of those the model correctly identified.
-
-High recall means the model is not missing many examples of that class.
-
----
-
-## F1-Score
-
-The F1-score combines precision and recall into one score.
-
-This is useful because it gives a balanced view of performance.
-
-A high F1-score means the model is doing well in both precision and recall.
+| Class | Precision | Recall | F1-Score |
+|---|---:|---:|---:|
+| Class 1 | `ADD VALUE` | `ADD VALUE` | `ADD VALUE` |
+| Class 2 | `ADD VALUE` | `ADD VALUE` | `ADD VALUE` |
+| Class 3 | `ADD VALUE` | `ADD VALUE` | `ADD VALUE` |
 
 ---
 
-# 8. Final Model
+# 7. What Changed Throughout the Project
 
-The final selected model was the 200-epoch model trained with the `ReduceLROnPlateau` callback.
+## Baseline Model
 
-## Why This Model Was Selected
+The baseline model was used as the starting point. It showed that the dataset and training pipeline worked, but it was too simple to capture the visual complexity of acne images.
 
-This model was selected because it performed better than the earlier versions and showed the strongest overall learning behaviour.
+## Custom CNN Model
 
-Compared to the earlier models, the final model benefited from:
+The custom CNN was created to improve image feature learning. It was better suited for image classification because it could learn patterns such as textures, shapes, and edges.
 
-- More training time.
-- A learning rate callback.
-- Better validation performance.
-- Improved test evaluation.
-- More reliable class-level results.
+However, since it was trained from scratch, it still had limitations. It needed to learn all image features only from my dataset, which made performance harder to improve.
 
-The final model represented the best version developed during this project.
+## Transfer Learning Model
 
----
+The transfer learning model improved on the custom CNN by using a pre-trained model that already understood general image features.
 
-## Final Model Files
-
-After training, the final model was saved for future use.
-
-The saved files include:
-
-- The trained model file.
-- The class names file.
-
-Saving the model and class names is important because the model needs the same class order when making predictions later.
-
-Without saving the class names, the model may output a prediction index, but it would be harder to know which acne class that index represents.
+This helped the model perform better on the acne dataset and made it the best choice for the final model.
 
 ---
 
-# 9. What Changed Throughout the Project
+# 8. What I Learned
 
-The project improved through several stages.
+## A Baseline Model Is Important
 
-## From Baseline Model to Final Model
+The baseline model gave the project a starting point. It helped confirm that the dataset was loading correctly and that the model could train.
 
-At the beginning, the baseline model was used to confirm that the image classification pipeline worked. It showed that the model could learn from the dataset, but it was not strong enough to be the final version.
+It also made it easier to compare later models and see whether the project was improving.
 
-After that, the training process was improved by adding a learning rate callback. This allowed the model to reduce its learning rate when validation performance stopped improving.
+## CNNs Are Better for Image Data
 
-Then, different epoch values were tested. The model was trained with 100 epochs, then 150 epochs, and finally 200 epochs.
+The custom CNN showed that image classification needs a model that can understand visual patterns.
 
-Each experiment helped answer whether the model needed more training time.
+Compared to the baseline model, the CNN was better suited for the task because it could learn features directly from images.
 
-The final model used 200 epochs because it showed the best balance between learning and generalization.
+## Training From Scratch Has Limits
 
----
+The CNN helped improve the model, but it also showed that training from scratch can be difficult when the dataset is limited.
 
-## Main Changes Made
+The model had to learn every feature by itself, which can require a lot of images and training time.
 
-The main changes during the project were:
+## Transfer Learning Is More Effective
 
-1. Started with a baseline image classification model.
-2. Trained the model and checked initial performance.
-3. Added `ReduceLROnPlateau` to improve learning rate behaviour.
-4. Tested training with 100 epochs.
-5. Compared the 100-epoch model to a 150-epoch model.
-6. Noticed that the model was still gradually improving.
-7. Decided not to immediately jump to 300 epochs.
-8. Tested a 200-epoch model instead.
-9. Compared the 150-epoch and 200-epoch results.
-10. Selected the 200-epoch model as the final version.
-11. Evaluated the final model using test results, confusion matrix, and classification report.
-12. Saved the final model and class names for future use.
+Transfer learning helped improve the project by using a pre-trained model that already knew how to detect general image features.
 
----
+This allowed the model to focus more on learning the acne-specific classes instead of starting from zero.
 
-# 10. What We Learned
+## Evaluation Needs More Than Accuracy
 
-This project showed that building a machine learning model is not a one-step process. It requires experimentation, comparison, and interpretation.
+The final model was evaluated using more than just accuracy.
 
-## Lesson 1: A Baseline Model Is Important
+The confusion matrix and classification report helped show which classes the model performed well on and which classes were more difficult.
 
-The baseline model gave us a starting point. Without it, we would not know whether later models were actually improving.
-
-The baseline helped us understand the initial performance of the model and gave us something to compare against.
-
-## Lesson 2: More Epochs Can Help, But Only Up to a Point
-
-Increasing the number of epochs helped improve the model from 100 to 150 and then to 200 epochs.
-
-However, we also learned that increasing epochs should be done carefully. More epochs can improve performance, but too many can lead to overfitting.
-
-That is why we tested 200 epochs instead of immediately jumping to 300.
-
-## Lesson 3: Validation Results Matter
-
-Training accuracy alone is not enough. A model can perform very well on the training data but still perform poorly on new images.
-
-Validation accuracy and validation loss helped us understand whether the model was learning patterns that could generalize beyond the training set.
-
-## Lesson 4: Learning Rate Scheduling Helps
-
-The `ReduceLROnPlateau` callback helped the model continue learning more carefully when improvement slowed down.
-
-This showed that training quality depends not only on the model architecture, but also on how the training process is controlled.
-
-## Lesson 5: Test Set Evaluation Should Come Last
-
-The test set was saved for final evaluation. This helped make sure the final performance was measured on images the model had not seen during training or validation.
-
-This made the final evaluation more trustworthy.
-
-## Lesson 6: Class-Level Performance Matters
-
-The confusion matrix and classification report showed that it is important to look beyond overall accuracy.
-
-Some classes may perform better than others, and some may be confused with visually similar categories.
-
-This is especially important for acne classification because acne types can have overlapping visual features.
+This was important because a model can have good overall accuracy but still struggle with certain categories.
 
 ---
 
-# 11. Final Results Interpretation
+# 9. Saved Files
 
-The final model showed that the acne classifier was able to learn meaningful patterns from the image dataset.
+The final stage of the project was saving the trained model and the class names.
 
-The training and validation curves suggested that the model improved over time, especially when trained for more epochs with the learning rate callback.
+Saving the model allows it to be loaded later without needing to retrain it.
 
-The confusion matrix helped show which classes the model predicted correctly and where it struggled. The classification report gave a more detailed breakdown of precision, recall, and F1-score for each class.
+Saving the class names is also important because the model outputs prediction indexes, and the class names are needed to convert those indexes into readable labels.
 
-Overall, the final model was selected because it gave the strongest performance out of the tested versions and showed the best balance between accuracy and generalization.
+For example, instead of only returning a number, the saved class names allow the prediction to be matched to the correct acne category.
 
----
+Saved files:
 
-# 12. How to Use the Model
-
-The saved model can be loaded later and used to make predictions on new acne images.
-
-A general prediction workflow would look like this:
-
-1. Load the saved model.
-2. Load the saved class names.
-3. Preprocess the input image so it matches the format used during training.
-4. Pass the image into the model.
-5. Get the predicted class index.
-6. Match the predicted index to the correct class name.
-7. Display the prediction result.
-
----
-
-# 13. Possible Future Improvements
-
-Although the final model performed better than earlier versions, there are still several ways the project could be improved in the future.
-
-## More Data
-
-Adding more images could help the model learn better and generalize more effectively.
-
-This would be especially useful for classes that the model struggles with or classes that have fewer examples.
-
-## Better Class Balance
-
-If some classes have more images than others, the model may become biased toward the larger classes.
-
-Balancing the dataset could improve performance across all classes.
-
-## Data Augmentation
-
-More image augmentation could help the model become more robust.
-
-Examples include:
-
-- Rotation
-- Zooming
-- Brightness adjustment
-- Horizontal flipping
-- Cropping
-- Contrast changes
-
-This could help the model handle real-world images taken under different lighting and angle conditions.
-
-## Testing Other Architectures
-
-Future versions could test more advanced models or transfer learning approaches.
-
-For example, models such as MobileNet, EfficientNet, or ResNet could be tested to see whether they improve accuracy.
-
-## Deployment
-
-The model could eventually be connected to a web or mobile application.
-
-In the larger acne app idea, the classifier could be combined with lifestyle tracking features so users can monitor acne changes over time.
-
----
-
-# 14. Conclusion
-
-This project followed the full life cycle of building an image classification model, starting from a baseline model and gradually improving it through experimentation.
-
-The baseline model helped establish a starting point. From there, the training process was improved using a learning rate callback, and multiple epoch values were tested to understand how longer training affected performance.
-
-The 100-epoch model showed that the model still had room to improve. The 150-epoch model performed better and showed continued learning. The 200-epoch model gave the strongest overall results and was selected as the final model.
-
-The project showed that model development is not just about getting a high accuracy score. It is about understanding how the model learns, checking whether it generalizes well, and using evaluation tools such as confusion matrices and classification reports to understand performance in more detail.
-
-The final saved model and class names now provide a foundation that can be used in the next stage of the project, including prediction scripts, app integration, or future improvements to the acne classification system.
+```text
+model/
+├── final_model.keras
+├── class_names.json
