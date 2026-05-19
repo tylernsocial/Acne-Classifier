@@ -2,11 +2,11 @@
 
 ## Project Overview
 
-This project focuses on building a custom image classification model for acne-related images. The main goal was to create a model that can take an image and classify it into the correct acne category.
+This project focuses on building a custom image classification model for acne-related images. The main goal was to train a deep learning model that can classify acne images into different categories based on visual patterns in the dataset.
 
-The project went through multiple stages, starting with a simple baseline model, then moving to a custom CNN model, and finally using transfer learning to improve performance. Each stage helped me understand what the previous model was missing and what needed to be changed to improve the classifier.
+The project followed a full machine learning development cycle, starting from a basic baseline model and gradually improving it through experimentation, training adjustments, callbacks, and evaluation. Throughout the process, different versions of the model were tested to understand how changes such as the number of epochs, learning rate behaviour, and validation performance affected the final results.
 
-The final model was saved along with the class names so it can be reused later for predictions or connected to a future acne tracking application.
+By the end of the project, a final trained model was selected, saved, and prepared for future use in an acne-based application.
 
 <img width="415" height="458" alt="image" src="https://github.com/user-attachments/assets/dc0cbddf-40a4-4e6f-9fa5-28326fcc11a1" />
 
