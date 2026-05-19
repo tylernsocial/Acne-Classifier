@@ -310,11 +310,52 @@ Saving the model allows it to be loaded later without needing to retrain it.
 
 Saving the class names is also important because the model outputs prediction indexes, and the class names are needed to convert those indexes into readable labels.
 
-For example, instead of only returning a number, the saved class names allow the prediction to be matched to the correct acne category.
+---
 
-Saved files:
+# 10. How This Project Could Be Improved
 
-```text
-model/
-├── final_model.keras
-├── class_names.json
+Although the final transfer learning model performed the best out of the models tested, there are still several ways this project could be improved in the future.
+
+## Better Dataset Quality
+
+The biggest improvement would be collecting a cleaner and higher-quality dataset. Since the dataset was manually scraped, some images may have issues such as poor lighting, blurry quality, inconsistent angles, unclear acne regions, or backgrounds that distract from the skin itself.
+
+A better dataset would include images that are clearer, more consistent, and more directly focused on the acne being classified. This would help the model learn the actual acne patterns instead of learning noise from the image.
+
+## More Images Per Class
+
+Another major improvement would be increasing the number of images in each acne category.
+
+More images would give the model more examples to learn from, which could improve its ability to generalize to new images. This would be especially helpful for classes where the model struggled or had lower precision, recall, or F1-score.
+
+## Better Class Balance
+
+If some acne classes have more images than others, the model may become biased toward the larger classes. This means it may perform better on categories with more examples and worse on categories with fewer examples.
+
+Balancing the dataset would help the model learn each class more fairly. This could be done by collecting more images for underrepresented classes or using data augmentation carefully.
+
+## More Consistent Image Labelling
+
+Since acne types can look visually similar, another improvement would be making sure the labels are as accurate and consistent as possible.
+
+If some images are mislabeled or unclear, the model may learn the wrong patterns. Having clearer labelling rules, or even getting labels checked by someone with more dermatology knowledge, would improve the reliability of the dataset.
+
+## Stronger Data Cleaning
+
+Before training future models, the dataset could be cleaned more carefully by removing images that are blurry, irrelevant, duplicated, low quality, or not focused on acne.
+
+This would help the model focus on meaningful skin features instead of being affected by unrelated image noise.
+
+## More Real-World Testing
+
+The model should also be tested on real-world images outside of the original dataset.
+
+This is important because images uploaded by real users may have different lighting, camera quality, angles, skin tones, and backgrounds. Testing on real-world images would show whether the model can generalize beyond the scraped dataset.
+
+## Experimenting With More Models
+
+Future work could also include testing other transfer learning architectures, such as EfficientNet, MobileNet, ResNet, or DenseNet.
+
+Different models may perform better depending on the dataset size, image quality, and classification difficulty.
+
+
