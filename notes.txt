@@ -208,3 +208,13 @@ The MobileNetV2 transfer learning model achieved the strongest validation perfor
 Training and validation loss both decreased over time, which suggests that the model continued improving rather than immediately overfitting. Validation accuracy eventually plateaued around 71%, while validation loss continued decreasing, indicating that the model was becoming more confident on its validation predictions even though the number of correct classifications was no longer increasing.
 
 Because validation loss was still slowly improving, a final experiment will use a learning-rate reduction callback to allow smaller updates later in training.
+
+Final Test Set Interpretation
+
+The final MobileNetV2 transfer learning model achieved a test accuracy of 74.2% and a test loss of 0.5236 on the held-out test set. Since this is a 4-class classification problem, random guessing would be approximately 25%, so the model performs substantially better than chance.
+
+The strongest class was inflammatory_acne, with precision, recall, and F1-score all around 0.86. This suggests that the model was able to learn the more visually distinct patterns of inflammatory acne, such as redness and inflamed lesions. The comedonal_open class also performed well, with high recall of 0.88, meaning the model correctly detected most open comedonal acne examples.
+
+The weakest class was acne_scars, which had a recall of 0.50. This means the model missed several true acne scar images, even though its precision for acne_scars was high at 0.80. In other words, when the model predicted acne scars it was usually correct, but it did not identify all scar cases. This may be due to visual overlap between scarring, skin texture, post-acne marks, and comedonal acne.
+
+Overall, the MobileNetV2 transfer learning model generalized much better than the earlier Logistic Regression baseline and custom CNN models. These results show that transfer learning was the most effective approach for this small image dataset.
