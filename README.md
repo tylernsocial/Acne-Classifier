@@ -8,13 +8,7 @@ The project went through multiple stages, starting with a simple baseline model,
 
 The final model was saved along with the class names so it can be reused later for predictions or connected to a future acne tracking application.
 
----
-
-## Project Goal
-
-The goal of this project was to develop an acne image classifier that could identify different acne-related categories from images.
-
-This classifier is intended to be part of a larger acne-based application. The main idea for the app is to combine an acne image classifier with lifestyle tracking features, where users can track things like diet, sleep, skincare routines, and other lifestyle changes that may affect their skin over time.
+<img width="415" height="458" alt="image" src="https://github.com/user-attachments/assets/dc0cbddf-40a4-4e6f-9fa5-28326fcc11a1" />
 
 ---
 
@@ -229,6 +223,8 @@ This helped me identify:
 - Which acne classes were confused with each other.
 - Which classes may need more training images or better image quality.
 
+<img width="718" height="638" alt="9749d9f3-8638-4686-8866-32f0ac431670" src="https://github.com/user-attachments/assets/1cd845e5-7d78-42cd-b4d4-45c9ac43c594" />
+
 This was useful because acne categories can be visually similar, so accuracy alone was not enough to fully understand the model’s performance.
 
 ---
@@ -245,13 +241,8 @@ It included:
 
 This helped me understand the model at a class-by-class level.
 
-Example format:
+<img width="395" height="121" alt="image" src="https://github.com/user-attachments/assets/59a1faf9-8861-4864-be14-019a7684115c" />
 
-| Class | Precision | Recall | F1-Score |
-|---|---:|---:|---:|
-| Class 1 | `ADD VALUE` | `ADD VALUE` | `ADD VALUE` |
-| Class 2 | `ADD VALUE` | `ADD VALUE` | `ADD VALUE` |
-| Class 3 | `ADD VALUE` | `ADD VALUE` | `ADD VALUE` |
 
 ---
 
